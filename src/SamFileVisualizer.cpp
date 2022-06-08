@@ -75,9 +75,12 @@ void SamFileVisualizer::display(int position) {
     }
     endIndex = mid;
 
-    auto rows = std::vector<std::string>(size.ws_row - 3);
+    std::vector<std::string> rows(size.ws_row - 3);
 
-    for (int i = 0; i < size.ws_row - 3; i++) rows[i] = "";
+    for (int i = 0; i < size.ws_row - 3; i++) {
+        rows[i] = "";
+        rows[i].reserve(size.ws_col);
+    }
 
     for (int iter = 0; iter <= endIndex; iter++) {
         if (_entries[iter]->getEndPosition() < position) continue;
