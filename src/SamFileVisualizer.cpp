@@ -117,7 +117,7 @@ void SamFileVisualizer::display(int position) {
 }
 
 void SamFileVisualizer::addToTable(std::vector<std::string>& table, int row, int column, const std::string& newString, int relativePosition) {
-    for (int i = 0; i < row - 3; i++) {
+    for (int i = 0; i < row; i++) {
         if (table[i].length() <= relativePosition && relativePosition + newString.length() <= column) {
             if (table[i].length() < relativePosition) table[i] += std::string(relativePosition - table[i].length(), ' ');
             table[i] += newString;
