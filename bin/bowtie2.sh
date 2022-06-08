@@ -26,7 +26,7 @@ elif [[ "$OSTYPE" =~ ^linux ]]; then
     echo "Current system is Linux x64."
     echo "Searching for corresponding binary zip pack file."
     if $(ls -1 | grep "^bowtie2" | grep -q "linux-x86_64.zip$") ; then
-      binaryFile=$(ls -1 | grep "^bowtie2" | grep "linux-aarch64.zip$")
+      binaryFile=$(ls -1 | grep "^bowtie2" | grep "linux-x86_64.zip$")
     fi
   else
     echo "System architecture is not identified."
