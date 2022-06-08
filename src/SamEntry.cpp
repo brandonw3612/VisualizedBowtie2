@@ -31,13 +31,13 @@ SamEntry::SamEntry(const std::string &lineData)
 
     auto cigarModifiers = CigarStringParser::parseCigarString(lineData.substr(tabPositions[4] + 1, tabPositions[5] - tabPositions[4] - 1));
     for (auto modifier: cigarModifiers) {
-        if (get<0>(modifier)) {
-            auto former = get<1>(modifier) > 0 ? _entryString.substr(0, get<1>(modifier) - 1) : "";
-            auto latter = _entryString.substr(get<1>(modifier) + get<2>(modifier));
+        if (std::get<0>(modifier)) {
+            auto former = std::get<1>(modifier) > 0 ? _entryString.substr(0, std::get<1>(modifier) - 1) : "";
+            auto latter = _entryString.substr(std::get<1>(modifier) + std::get<2>(modifier));
             _entryString = former + latter;
         }
         else {
-            _entryString.insert(get<1>(modifier), std::string(get<2>(modifier), '~'));
+            _entryString.insert(std::get<1>(modifier), std::string(std::get<2>(modifier), '~'));
         }
     }
 }

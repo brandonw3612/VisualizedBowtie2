@@ -6,6 +6,7 @@
 #define VISUALIZEDBOWTIE2_CIGARSTRINGPARSER_H
 
 #include <string>
+#include <tuple>
 #include <vector>
 
 class CigarStringParser {

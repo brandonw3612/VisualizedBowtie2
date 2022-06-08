@@ -32,7 +32,7 @@ int main(int argc, char* argv[] ) {
 
     std::cout << "Executing shell script to analyse the sequences with bowtie2." << std::endl;
 
-    std::string cmd = "./bowtie2.sh " + faFilePath + " reference " + fqFilePath + " result.sam";
+    std::string cmd = "bash ./bowtie2.sh " + faFilePath + " reference " + fqFilePath + " result.sam";
     system(cmd.c_str());
 
     SamFileVisualizer visualizer("/Users/brandon/Downloads/项目6/project6/data/ref.fa", "/Users/brandon/Downloads/result1.sam");

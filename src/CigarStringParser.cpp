@@ -14,11 +14,11 @@ std::vector<std::tuple<bool, int, int>> CigarStringParser::parseCigarString(cons
             rangeLength += i - '0';
         }
         else if (i == 'I') {
-            result.emplace_back(true, currentRangeStart, rangeLength);
+            result.push_back(std::tuple<bool, int, int>(true, currentRangeStart, rangeLength));
             rangeLength = 0;
         }
         else if (i == 'D') {
-            result.emplace_back(false, currentRangeStart, rangeLength);
+            result.push_back(std::tuple<bool, int, int>(false, currentRangeStart, rangeLength));
             currentRangeStart += rangeLength;
             rangeLength = 0;
         }

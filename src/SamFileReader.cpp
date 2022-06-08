@@ -2,6 +2,7 @@
 // Created by Brandon Wong on 2022/6/6.
 //
 
+#include <algorithm>
 #include <fstream>
 
 #include "../include/SamFileReader.h"
