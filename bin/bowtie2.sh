@@ -46,9 +46,11 @@ fi
 echo "Zip binary file found."
 echo "Unzipping binaries."
 
-unzip "$binaryFile" -n
+unzip -n "$binaryFile"
 
 basepath=$(cd `dirname $0`; cd ..; pwd)
+
+rm -rf $basepath/data
 
 mkdir $basepath/data
 
