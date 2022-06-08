@@ -15,6 +15,12 @@
 
 SamFileVisualizer::SamFileVisualizer(const std::string& sequenceFilePath, const std::string& resultFilePath) {
     std::ifstream inFile(sequenceFilePath);
+
+    if (!inFile.good()) {
+        std::cerr << "The FASTA Sequence (.fa) file could not be found. Make sure you selected the correct path." << std::endl;
+        exit(2);
+    }
+
     std::string line;
     std::ostringstream ostr;
     while (std::getline(inFile, line)) {

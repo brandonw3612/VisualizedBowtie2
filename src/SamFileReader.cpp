@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <fstream>
+#include <iostream>
 
 #include "../include/SamFileReader.h"
 
@@ -11,6 +12,11 @@ SamFileReader::SamFileReader(const std::string &filePath) { _filePath = filePath
 
 std::vector<SamEntry*> SamFileReader::Read() {
     std::ifstream inFile(_filePath);
+
+    if (!inFile.good()) {
+        std::cerr << "The SAM file could not be found. Make sure the script has generated needed files correctly." << std::endl;
+        exit(2);
+    }
 
     std::string line;
 
