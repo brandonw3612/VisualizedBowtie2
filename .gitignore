@@ -50,3 +50,10 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+
+/bin/bowtie2-*/
+/data/
+/bin/*.zip
+/cmake-build-debug/
+/bin/VisualizedBowtie2
