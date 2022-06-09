@@ -30,6 +30,8 @@ SamFileVisualizer::SamFileVisualizer(const std::string& sequenceFilePath, const 
     }
     _mainSequence = ostr.str();
 
+    inFile.close();
+
     SamFileReader samFileReader(resultFilePath);
     _entries = samFileReader.Read();
 

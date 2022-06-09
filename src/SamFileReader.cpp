@@ -29,6 +29,8 @@ std::vector<SamEntry*> SamFileReader::Read() {
         if (newEntry->getPosition() >= 0) result.push_back(newEntry);
     }
 
+    inFile.close();
+
     std::stable_sort(result.begin(), result.end(), SamEntry::defaultCompare);
 
     return result;
