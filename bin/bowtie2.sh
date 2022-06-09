@@ -5,7 +5,7 @@ if [[ "$OSTYPE" =~ ^darwin ]]; then
     if $(ls -1 | grep "^bowtie2" | grep -q "macos-arm64.zip$") ; then
       binaryFile=$(ls -1 | grep "^bowtie2" | grep "macos-arm64.zip$")
     fi
-  elif [[ $(arch) =~ ^x ]] && [[ $(arch) =~ 64 ]]; then
+  elif [[ $(arch) =~ ^i386$ ]]; then
     echo "Current system is macOS x64."
     echo "Searching for corresponding binary zip pack file."
     if $(ls -1 | grep "^bowtie2" | grep -q "macos-x86_64.zip$") ; then
