@@ -33,11 +33,11 @@ SamFileVisualizer::SamFileVisualizer(const std::string& sequenceFilePath, const 
     inFile.close();
 
     SamFileReader samFileReader(resultFilePath);
-    _entries = samFileReader.Read();
+    _entries = samFileReader.read();
 
     _currentPosition = 0;
 
-    isHelpScreenOn = false;
+    _isHelpScreenOn = false;
 }
 
 void SamFileVisualizer::display(int position) {
@@ -132,8 +132,8 @@ void SamFileVisualizer::addToTable(std::vector<std::string>& table, int row, int
 }
 
 void SamFileVisualizer::toggleHelpScreen() {
-    isHelpScreenOn = !isHelpScreenOn;
-    if (!isHelpScreenOn)
+    _isHelpScreenOn = !_isHelpScreenOn;
+    if (!_isHelpScreenOn)
     {
         display(_currentPosition);
         return;

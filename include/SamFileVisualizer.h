@@ -15,7 +15,7 @@ private:
     std::string _mainSequence;
     std::vector<SamEntry*> _entries;
     int _currentPosition;
-    bool isHelpScreenOn;
+    bool _isHelpScreenOn;
 
 public:
     SamFileVisualizer(const std::string&, const std::string&);

@@ -18,7 +18,7 @@ public:
     explicit SamFileReader(const std::string& filePath);
 
 public:
-    std::vector<SamEntry*> Read();
+    std::vector<SamEntry*> read();
 };
 
 #endif //VISUALIZED_BOWTIE2_SAM_FILE_READER_H

@@ -10,7 +10,7 @@
 
 SamFileReader::SamFileReader(const std::string &filePath) { _filePath = filePath; }
 
-std::vector<SamEntry*> SamFileReader::Read() {
+std::vector<SamEntry*> SamFileReader::read() {
     std::ifstream inFile(_filePath);
 
     if (!inFile.good()) {
