@@ -152,9 +152,10 @@ void SamFileVisualizer::toggleHelpScreen() {
 
     std::cout << "VisualizedBowtie2 - Help" << std::endl << std::endl;
     std::cout << std::endl << "Left / Right Arrow Keys" << std::endl << "Navigates the sequence backward/forward by 20 bits." << std::endl;
-    std::cout << std::endl << "B Key" << std::endl << "Navigates the sequence to the beginning of the sequence." << std::endl << std::endl;
-    std::cout << std::endl << "E Key" << std::endl << "Navigates the sequence to the end of the sequence." << std::endl << std::endl;
-    std::cout << std::endl << "G Key" << std::endl << "Navigates the sequence to any position you input in the sequence." << std::endl << std::endl;
-    std::cout << std::endl << "H Key / ? Key" << std::endl << "Toggles this helper screen on or off." << std::endl << std::endl;
-    std::cout << std::endl << "Q Key" << std::endl << "Exit the program." << std::endl << std::endl;
+    std::cout << std::endl << "Up / Down Arrow Keys" << std::endl << "Scroll the displayed sequences 1 line up/down." << std::endl;
+    std::cout << std::endl << "B Key" << std::endl << "Navigates the sequence to the beginning of the sequence." << std::endl;
+    std::cout << std::endl << "E Key" << std::endl << "Navigates the sequence to the end of the sequence." << std::endl;
+    std::cout << std::endl << "G Key" << std::endl << "Navigates the sequence to any position you input in the sequence." << std::endl;
+    std::cout << std::endl << "H Key / ? Key" << std::endl << "Toggles this helper screen on or off." << std::endl;
+    std::cout << std::endl << "Q Key" << std::endl << "Exit the program." << std::endl;
 }
