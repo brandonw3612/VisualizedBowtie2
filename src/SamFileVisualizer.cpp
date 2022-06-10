@@ -91,7 +91,7 @@ void SamFileVisualizer::scrollVertically(int line) {
     ioctl(STDIN_FILENO, TIOCGWINSZ, &size);
 
     if (line < 0) line = 0;
-    if (line >= _currentLines.size()) line = _currentLines.size() - 1;
+    if (line >= _currentLines.size() - size.ws_row + 3) line = _currentLines.size() - size.ws_row + 3;
 
     int col = 0;
     while (col < size.ws_col) {
