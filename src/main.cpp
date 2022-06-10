@@ -43,6 +43,8 @@ int main(int argc, char* argv[] ) {
 
     keyboardEventHandler.onLeftKeyPressed = [](SamFileVisualizer* v) { v->display(v->getCurrentPosition() - 20); };
     keyboardEventHandler.onRightKeyPressed = [](SamFileVisualizer* v) { v->display(v->getCurrentPosition() + 20); };
+    keyboardEventHandler.onUpKeyPressed = [](SamFileVisualizer* v) { v->scrollVertically(v->getCurrentLine() - 1); };
+    keyboardEventHandler.onDownKeyPressed = [](SamFileVisualizer* v) { v->scrollVertically(v->getCurrentLine() + 1); };
     keyboardEventHandler.onBKeyPressed = [](SamFileVisualizer* v) { v->display(0); };
     keyboardEventHandler.onEKeyPressed = [](SamFileVisualizer* v) { v->display(v->getSequenceLength()); };
     keyboardEventHandler.onHKeyPressed = [](SamFileVisualizer* v) { v->toggleHelpScreen(); };

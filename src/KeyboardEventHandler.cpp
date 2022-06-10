@@ -51,6 +51,34 @@ void KeyboardEventHandler::processKeys() {
             _capturedKeys.clear();
             return;
         }
+
+        // determine if up key is pressed
+        matched = true;
+        for (int i = 0; i < 3; i++) {
+            if (_capturedKeys[i] != upKey[i]) {
+                matched = false;
+                break;
+            }
+        }
+        if (matched) {
+            onUpKeyPressed(_visualizer);
+            _capturedKeys.clear();
+            return;
+        }
+
+        // determine if down key is pressed
+        matched = true;
+        for (int i = 0; i < 3; i++) {
+            if (_capturedKeys[i] != downKey[i]) {
+                matched = false;
+                break;
+            }
+        }
+        if (matched) {
+            onDownKeyPressed(_visualizer);
+            _capturedKeys.clear();
+            return;
+        }
     }
     else if (_capturedKeys.size() == 1) {
         if (_capturedKeys[0] == 'b') {

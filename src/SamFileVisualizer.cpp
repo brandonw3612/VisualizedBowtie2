@@ -41,31 +41,11 @@ SamFileVisualizer::SamFileVisualizer(const std::string& sequenceFilePath, const 
 }
 
 void SamFileVisualizer::display(int position) {
-    system("clear");
-
     winsize size{};
     ioctl(STDIN_FILENO, TIOCGWINSZ, &size);
 
     if (position < 0) position = 0;
     if (position + size.ws_col >= _mainSequence.length() + 10) position = _mainSequence.length() - size.ws_col + 10;
-
-    int col = 0;
-    while (col < size.ws_col) {
-        if ((position + col) % 10 != 0) {
-            std::cout << " ";
-            col++;
-        }
-        else if (col + Helpers::getDigits(position + col) < size.ws_col) {
-            std::cout << position + col;
-            col += Helpers::getDigits(position + col);
-        }
-        else {
-            col++;
-        }
-    }
-    std::cout << std::endl;
-
-    std::cout << _mainSequence.substr(position, size.ws_col) << std::endl;
 
     int endIndex;
     int left = 0, right = _entries.size() - 1, mid;
@@ -75,60 +55,90 @@ void SamFileVisualizer::display(int position) {
         if (_entries[mid]->getPosition() > position + size.ws_col) right = mid;
         else left = mid;
     }
-    endIndex = mid;
+    endIndex = left;
 
-    std::vector<std::string> rows(size.ws_row - 3);
-
-    for (int i = 0; i < size.ws_row - 3; i++) {
-        rows[i] = "";
-        rows[i].reserve(size.ws_col);
-    }
+    _currentLines.clear();
 
     for (int iter = 0; iter <= endIndex; iter++) {
         if (_entries[iter]->getEndPosition() < position) continue;
         if (_entries[iter]->getPosition() < position) {
             if (_entries[iter]->getEndPosition() - position + 1 <= size.ws_col) {
-                addToTable(rows, size.ws_row - 3, size.ws_col, _entries[iter]->getString().substr(position - _entries[iter]->getPosition()), 0);
+                addToTable(size.ws_col, _entries[iter]->getString().substr(position - _entries[iter]->getPosition()), 0);
             }
             else {
-                addToTable(rows, size.ws_row - 3, size.ws_col, _entries[iter]->getString().substr(position - _entries[iter]->getPosition(), size.ws_col), 0);
+                addToTable(size.ws_col, _entries[iter]->getString().substr(position - _entries[iter]->getPosition(), size.ws_col), 0);
             }
         }
         else {
             if (_entries[iter]->getEndPosition() - position > size.ws_col) {
-                addToTable(rows, size.ws_row - 3, size.ws_col, _entries[iter]->getString().substr(0, size.ws_col + position - _entries[iter]->getPosition()), _entries[iter]->getPosition() - position);
+                addToTable(size.ws_col, _entries[iter]->getString().substr(0, size.ws_col + position - _entries[iter]->getPosition()), _entries[iter]->getPosition() - position);
             }
             else {
-                addToTable(rows, size.ws_row - 3, size.ws_col, _entries[iter]->getString(), _entries[iter]->getPosition() - position);
+                addToTable(size.ws_col, _entries[iter]->getString(), _entries[iter]->getPosition() - position);
             }
         }
     }
 
     _currentPosition = position;
 
-    for (int i = 0; i < size.ws_row - 3; i++) {
-        if (rows[i].empty()) return;
-        if (i != 0) std::cout << std::endl;
-        for (int j = 0; j < size.ws_col; j++) {
-            if (rows[i][j] == _mainSequence[position + j]) rows[i][j] = '.';
-        }
-        std::cout << rows[i];
-    }
-
-    rows.clear();
+    scrollVertically(0);
 }
 
-void SamFileVisualizer::addToTable(std::vector<std::string>& table, int row, int column, const std::string& newString, int relativePosition) {
-    for (int i = 0; i < row; i++) {
-        if (table[i].length() <= relativePosition && relativePosition + newString.length() <= column) {
-            if (table[i].length() < relativePosition) table[i] += std::string(relativePosition - table[i].length(), ' ');
-            table[i] += newString;
-            if (table[i].length() + 1 <= column) {
-                table[i] += " ";
+void SamFileVisualizer::scrollVertically(int line) {
+    system("clear");
+
+    winsize size{};
+    ioctl(STDIN_FILENO, TIOCGWINSZ, &size);
+
+    if (line < 0) line = 0;
+    if (line >= _currentLines.size()) line = _currentLines.size() - 1;
+
+    int col = 0;
+    while (col < size.ws_col) {
+        if ((_currentPosition + col) % 10 != 0) {
+            std::cout << " ";
+            col++;
+        }
+        else if (col + Helpers::getDigits(_currentPosition + col) < size.ws_col) {
+            std::cout << _currentPosition + col;
+            col += Helpers::getDigits(_currentPosition + col);
+        }
+        else {
+            col++;
+        }
+    }
+    std::cout << std::endl;
+
+    std::cout << _mainSequence.substr(_currentPosition, size.ws_col) << std::endl;
+
+    for (int i = line; i < _currentLines.size() && i - line < size.ws_row - 3; i++) {
+        if (i != line) std::cout << std::endl;
+        for (int j = 0; j < size.ws_col; j++) {
+            if (_currentLines[i][j] == _mainSequence[_currentPosition + j]) _currentLines[i][j] = '.';
+        }
+        std::cout << _currentLines[i];
+    }
+
+    _currentStartingLine = line;
+}
+
+void SamFileVisualizer::addToTable(int column, const std::string& newString, int relativePosition) {
+    for (int i = 0; i < _currentLines.size(); i++) {
+        if (_currentLines[i].length() <= relativePosition && relativePosition + newString.length() <= column) {
+            if (_currentLines[i].length() < relativePosition) _currentLines[i] += std::string(relativePosition - _currentLines[i].length(), ' ');
+            _currentLines[i] += newString;
+            if (_currentLines[i].length() + 3 <= column) {
+                _currentLines[i] += "   ";
             }
             return;
         }
     }
+
+    std::string newLine = "";
+    if (relativePosition > 0) newLine += std::string(relativePosition, ' ');
+    newLine += newString;
+    _currentLines.push_back(newLine);
+    _currentLines[_currentLines.size() - 1].reserve(column);
 }
 
 void SamFileVisualizer::toggleHelpScreen() {
@@ -141,7 +151,7 @@ void SamFileVisualizer::toggleHelpScreen() {
     system("clear");
 
     std::cout << "VisualizedBowtie2 - Help" << std::endl << std::endl;
-    std::cout << std::endl << "Left / Right Arrow Keys" << std::endl << "Navigates the sequence backward/forward by 20 bits." << std::endl << std::endl;
+    std::cout << std::endl << "Left / Right Arrow Keys" << std::endl << "Navigates the sequence backward/forward by 20 bits." << std::endl;
     std::cout << std::endl << "B Key" << std::endl << "Navigates the sequence to the beginning of the sequence." << std::endl << std::endl;
     std::cout << std::endl << "E Key" << std::endl << "Navigates the sequence to the end of the sequence." << std::endl << std::endl;
     std::cout << std::endl << "G Key" << std::endl << "Navigates the sequence to any position you input in the sequence." << std::endl << std::endl;

@@ -14,6 +14,8 @@ class SamFileVisualizer {
 private:
     std::string _mainSequence;
     std::vector<SamEntry*> _entries;
+    std::vector<std::string> _currentLines;
+    int _currentStartingLine;
     int _currentPosition;
     bool _isHelpScreenOn;
 
@@ -22,12 +24,14 @@ public:
 
 public:
     int getCurrentPosition() const { return _currentPosition; }
+    int getCurrentLine() const { return _currentStartingLine; }
     int getSequenceLength() const { return (int)_mainSequence.length(); }
     void display(int position);
+    void scrollVertically(int line);
     void toggleHelpScreen();
 
 private:
-    static void addToTable(std::vector<std::string>&, int, int, const std::string&, int);
+    void addToTable(int, const std::string&, int);
 };
 
 #endif //VISUALIZED_BOWTIE2_SAM_FILE_VISUALIZER_H

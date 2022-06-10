@@ -18,6 +18,8 @@ public:
     explicit KeyboardEventHandler(SamFileVisualizer*);
     void (*onLeftKeyPressed)(SamFileVisualizer*);
     void (*onRightKeyPressed)(SamFileVisualizer*);
+    void (*onUpKeyPressed)(SamFileVisualizer*);
+    void (*onDownKeyPressed)(SamFileVisualizer*);
     void (*onBKeyPressed)(SamFileVisualizer*);
     void (*onEKeyPressed)(SamFileVisualizer*);
     void (*onGKeyPressed)(SamFileVisualizer*);
@@ -33,6 +35,8 @@ private:
 private:
     const std::vector<int> leftKey { 27, 91, 68 };
     const std::vector<int> rightKey { 27, 91, 67 };
+    const std::vector<int> upKey { 27, 91, 65 };
+    const std::vector<int> downKey { 27, 91, 66 };
 };
 
 
